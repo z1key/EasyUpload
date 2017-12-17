@@ -17,27 +17,28 @@ import java.util.Properties;
 public class AppConfiguration {
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource myDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setTestOnBorrow(true);
         dataSource.setValidationQuery("SELECT 1");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/easyupload");
-        dataSource.setUsername("easyupload");
-        dataSource.setPassword("password");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/simple_upload?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+        dataSource.setUsername("admin");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            DataSource dataSource) {
+        DataSource myDataSource) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setPackagesToScan("easyupload.entity");
         emf.setPersistenceProvider(new HibernatePersistenceProvider());
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         jpaProperties.setProperty("hibernate.show_sql", "true");
+        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL57InnoDBDialect");
         emf.setJpaProperties(jpaProperties);
-        emf.setDataSource(dataSource);
+        emf.setDataSource(myDataSource);
         return emf;
     }
 
