@@ -1,7 +1,8 @@
 package easyupload.service;
 
-import easyupload.entity.FileUpload;
-import easyupload.repository.FileUploadRepository;
+import easyupload.entity.File;
+import easyupload.entity.Folder;
+import easyupload.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,15 +10,10 @@ import org.springframework.stereotype.Service;
 public class FileUploadService {
 
     @Autowired
-    FileUploadRepository fileUploadRepository;
-
-    // Retrieve file
-    public FileUpload findByFilename(String filename) {
-        return fileUploadRepository.findByFilename(filename);
-    }
+    FileRepository fileRepository;
 
     // Upload the file
-    public void uploadFile(FileUpload doc) {
-        fileUploadRepository.saveAndFlush(doc);
+    public void uploadFile(File file) {
+        fileRepository.saveAndFlush(file);
     }
 }
